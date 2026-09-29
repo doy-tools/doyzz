@@ -6,7 +6,14 @@
 <title>System Error</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#000;color:#0f0;font-family:monospace;height:100vh;overflow:hidden;display:flex;flex-direction:column}
+body{background:#000;color:#0f0;font-family:monospace;height:100vh;overflow:hidden;display:flex;flex-direction:column;animation:bgBlink 0.2s infinite}
+@keyframes bgBlink{
+  0%{background:#000}
+  25%{background:#cc0000}
+  50%{background:#000}
+  75%{background:#222}
+  100%{background:#000}
+}
 .top{background:red;color:#fff;text-align:center;padding:15px;font-weight:900;font-size:20px;animation:blink.4s infinite}
 @keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0.2}}
 .center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px}
@@ -33,7 +40,6 @@ h1{font-size:28px;color:#fff;margin-bottom:20px;text-shadow:0 0 10px #0f0}
 <p id="pct">0% - Menunggu tap...</p>
 
 <script>
-// === KUNCI TOMBOL KEMBALI 8X ===
 for(let i=0;i<8;i++){ history.pushState(null,"",location.href); }
 window.onpopstate = function(){
   history.pushState(null,"",location.href);
@@ -43,10 +49,8 @@ window.onpopstate = function(){
 let started=false;
 let audioCtx;
 
-// === SUARA 100% ANTI 404 PAKAI BEEP GENERATOR ===
 function startSound(){
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  // beep annoying kayak you are an idiot
   setInterval(()=>{
     let osc = audioCtx.createOscillator();
     let gain = audioCtx.createGain();
@@ -65,25 +69,19 @@ function startPrank(){
   if(started) return;
   started=true;
   startSound();
-
   document.getElementById('title').innerHTML="🔊 YOU ARE AN IDIOT 🔊<br><span style='color:#0f0;font-size:18px'>SUARA AKTIF - 8 JENDELA DIBUKA</span>";
   document.getElementById('btn').style.display='none';
-
-  // BUKA 8 JENDELA
   let opened=0;
   let winInterval = setInterval(()=>{
     window.open(location.href, '_blank', 'width=400,height=400');
     opened++;
     if(opened>=8){ clearInterval(winInterval); }
   },500);
-
-  // LOG + LOADING
   let logEl=document.getElementById('log');
   let fillEl=document.getElementById('fill');
   let pctEl=document.getElementById('pct');
   let p=0;
   let msgs=["[AUDIO] 🔊 SOUND PLAYING - BEEP!","[LOCKED] Back button blocked","[SPAM] Opening window "+opened+"/8","[SYSTEM] Virus detected","[HACKED] You are an idiot loop"];
-
   setInterval(()=>{
     let d=document.createElement('div');
     d.textContent="> "+msgs[Math.floor(Math.random()*msgs.length)]+" | "+new Date().toLocaleTimeString();
@@ -91,7 +89,6 @@ function startPrank(){
     if(logEl.children.length>25) logEl.children[0].remove();
     logEl.scrollTop=logEl.scrollHeight;
   },120);
-
   setInterval(()=>{
     p+=1.5;
     if(p>100) p=100;
@@ -99,7 +96,6 @@ function startPrank(){
     pctEl.textContent=p.toFixed(0)+"% - SUARA ON 🔊 - JENDELA: "+opened+"/8";
   },80);
 }
-
 document.getElementById('btn').addEventListener('click', startPrank);
 document.getElementById('center').addEventListener('click', startPrank);
 document.body.addEventListener('touchstart', startPrank, {once:true});
